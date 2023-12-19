@@ -20,6 +20,7 @@
 	#define kNumMeasure 16
 
 	typedef unsigned int u32;
+	typedef uint16_t u16;
 
 	enum key_flags { kReset = 0 , kSet , kTristate  };							// состояние "семафоров" клавиш
 	enum _states { kOff = 0, kOn  };
@@ -33,6 +34,9 @@
 
 	void ProjectMain(void);
 	void UsbReceivedMidiCC(int byte1 , int byte2 , int byte3);
+	void UsbReceivedMidiPC(int byte1 , int byte2);
+
+	void TestFlash(void);
 
 	extern DevStruct dev;
 	extern uint16_t Adc1ConvertedValue[ADC_NUM_CHANNELS];

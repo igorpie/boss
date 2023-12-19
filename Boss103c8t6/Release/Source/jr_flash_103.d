@@ -1,6 +1,5 @@
-Source/interfaceBMP.o: ../Source/interfaceBMP.c ../Source/interfaceBMP.h \
- ../Source/ssd1306.h ../Source/ssd1306_conf.h ../Source/ssd1306_fonts.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+Source/jr_flash_103.o: ../Source/jr_flash_103.c ../Source/jr_flash_103.h \
+ ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -31,15 +30,13 @@ Source/interfaceBMP.o: ../Source/interfaceBMP.c ../Source/interfaceBMP.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
+ ../Source/ProjectMain.h ../Source/HelperLib.h \
+ ../Source/jr_usart_103_hal.h
 
-../Source/interfaceBMP.h:
+../Source/jr_flash_103.h:
 
-../Source/ssd1306.h:
-
-../Source/ssd1306_conf.h:
-
-../Source/ssd1306_fonts.h:
+../Core/Inc/main.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 
@@ -104,3 +101,9 @@ Source/interfaceBMP.o: ../Source/interfaceBMP.c ../Source/interfaceBMP.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h:
+
+../Source/ProjectMain.h:
+
+../Source/HelperLib.h:
+
+../Source/jr_usart_103_hal.h:

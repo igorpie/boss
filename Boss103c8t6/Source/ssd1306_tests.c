@@ -204,13 +204,13 @@ void ssd1306_TestFPS() {
     char message[] = "ABCDEFGHIJK";
    
     ssd1306_SetCursor(2,0);
-    ssd1306_WriteString("Testing...", Font_11x18, Black);
+    //ssd1306_WriteString("Testing...", Font_11x18, Black);
     ssd1306_SetCursor(2, 18*2);
-    ssd1306_WriteString("0123456789A", Font_11x18, Black);
+    //ssd1306_WriteString("0123456789A", Font_11x18, Black);
    
     do {
         ssd1306_SetCursor(2, 18);
-        ssd1306_WriteString(message, Font_11x18, Black);
+        //ssd1306_WriteString(message, Font_11x18, Black);
         ssd1306_UpdateScreen();
        
         char ch = message[0];
@@ -229,7 +229,7 @@ void ssd1306_TestFPS() {
    
     ssd1306_Fill(White);
     ssd1306_SetCursor(2, 2);
-    ssd1306_WriteString(buff, Font_11x18, Black);
+    //ssd1306_WriteString(buff, Font_11x18, Black);
     ssd1306_UpdateScreen();
 }
 

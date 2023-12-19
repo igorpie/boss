@@ -1,0 +1,8 @@
+jr_flash_103.c:13:6:flash_unlock	0	static
+jr_flash_103.c:19:6:flash_lock	0	static
+jr_flash_103.c:24:6:flash_erase	0	static
+jr_flash_103.c:42:6:jrflash_write_u32	8	static
+jr_flash_103.c:60:14:flash_read_u32	0	static
+jr_flash_103.c:69:6:flash_erase_buf	16	static
+jr_flash_103.c:79:6:jrflash_write_page	16	static
+jr_flash_103.c:106:6:FlashSave	16	static

@@ -2,4 +2,4 @@ usbd_midi_if.c:172:17:MIDI_DataRx	32	static
 usbd_midi_if.c:160:17:MIDI_DataTx.constprop	16	static
 usbd_midi_if.c:25:6:USBD_AddEvent	24	static
 usbd_midi_if.c:150:6:USBD_SendMidiMessages	0	static
-usbd_midi_if.c:244:6:USBD_MIDI_Message	16	static
+usbd_midi_if.c:251:6:USBD_MIDI_Message	16	static

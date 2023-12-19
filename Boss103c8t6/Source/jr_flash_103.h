@@ -15,3 +15,5 @@ unsigned int flash_read_u32(unsigned int a);						// чтение u32 из flash
 
 void flash_erase_buf(int , int);									// стирание страниц фаза-1
 void jrflash_write_page(char * s, unsigned int p);
+
+void FlashSave(char * s, unsigned int len);							// Запись массива произвольной длины в фиксированную страницу конфига

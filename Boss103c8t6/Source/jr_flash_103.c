@@ -3,6 +3,7 @@
 //**************
 
 #include "jr_flash_103.h"
+#include "ProjectMain.h"
 #include "jr_usart_103_hal.h"
 
 // Запись: разблокировать, стереть страницу, записывать (u16, если надо u32, то бить на 2 u16) , заблокировать
@@ -22,7 +23,7 @@ void flash_lock(){
 // * Стирание страницы Flash 
 void flash_erase(unsigned int pageAddress){	// pageAddress - любой адрес, принадлежащий стираемой странице
 //	echo_hex33("\r\nErase adress: 0x", pageAddress);
-	led_sd_toggle();
+	//led_sd_toggle();
 
     while (FLASH->SR & FLASH_SR_BSY);
     if (FLASH->SR & FLASH_SR_EOP)  FLASH->SR = FLASH_SR_EOP;
@@ -100,3 +101,26 @@ void jrflash_write_page(char * s, unsigned int p){
 	flash_lock();
 }
 
+
+
+void FlashSave(char * s, unsigned int len){						// len кратное двум
+	u16 d;
+	unsigned int address = FLASH_BASE + kFlashPage * _page_size;
+	flash_unlock();
+	flash_erase(address);
+
+    while (FLASH->SR & FLASH_SR_BSY);
+    if (FLASH->SR & FLASH_SR_EOP)  FLASH->SR = FLASH_SR_EOP;
+
+    FLASH->CR |= FLASH_CR_PG;
+
+    for (int i = 0; i < len; i += 2) {
+    	d =  *(volatile u16 *) s;								// 2xChar to 1 x u16
+    	s = s + 2;
+        *(volatile u16*)(address + i) = d;						// int 32 бита разбивается на 2 по 16 бит
+        while (!(FLASH->SR & FLASH_SR_EOP));
+        FLASH->SR = FLASH_SR_EOP;
+    }
+    FLASH->CR &= ~(FLASH_CR_PG);
+	flash_lock();
+}

@@ -198,7 +198,6 @@ static uint16_t MIDI_DataRx(uint8_t* msg, uint16_t length){
       break;
     case 0x2:
     case 0x6:
-    case 0xC:
     case 0xD:
       byte1 = pcable->buf[ pcable->curidx ] = msg[ cnt+1 ];
       pcable->curidx = NEXTBYTE(pcable->curidx, USBMIDIMASK);
@@ -208,7 +207,7 @@ static uint16_t MIDI_DataRx(uint8_t* msg, uint16_t length){
       debug2("usb midi2 " , byte2);
       break;
 
-    case 0xB:													//2 bytes MIDI CC command
+    case 0xB:													// MIDI CC command , 2 bytes
     	byte1 = pcable->buf[ pcable->curidx ] = msg[ cnt+1 ];
         pcable->curidx = NEXTBYTE(pcable->curidx, USBMIDIMASK);
         byte2 = pcable->buf[ pcable->curidx ] = msg[ cnt+2 ];
@@ -216,6 +215,14 @@ static uint16_t MIDI_DataRx(uint8_t* msg, uint16_t length){
         byte3= pcable->buf[ pcable->curidx ] = msg[ cnt+3 ];
         pcable->curidx = NEXTBYTE(pcable->curidx, USBMIDIMASK);
         UsbReceivedMidiCC(byte1 , byte2 , byte3 ); 				// Send data to program
+      break;
+
+    case 0xC:													//MIDI PC command , 2 bytes
+      byte1 = pcable->buf[ pcable->curidx ] = msg[ cnt+1 ];
+      pcable->curidx = NEXTBYTE(pcable->curidx, USBMIDIMASK);
+      byte2 = pcable->buf[ pcable->curidx ] = msg[ cnt+2 ];
+      pcable->curidx = NEXTBYTE(pcable->curidx, USBMIDIMASK);
+      UsbReceivedMidiPC(byte1 , byte2); 						// Send data to program
       break;
 
 
