@@ -31,16 +31,16 @@
 		unsigned int changes;
 	} DevStruct;
 
+	#define PresetNumber pots[0].trig[3]							// unsigned int PresetNumber = 7;	// костыль: номер пресета сохраняется в неиспользуемой ячейке потенциометра, так проще писать во флэш.
 
 	void ProjectMain(void);
+	void PresetLoad(void);
 	void UsbReceivedMidiCC(int byte1 , int byte2 , int byte3);
 	void UsbReceivedMidiPC(int byte1 , int byte2);
-
-	void TestFlash(void);
 
 	extern DevStruct dev;
 	extern uint16_t Adc1ConvertedValue[ADC_NUM_CHANNELS];
 	extern uint16_t Adc1Values[ADC_NUM_CHANNELS][kNumMeasure];
 	extern PotStruct pots[ADC_NUM_CHANNELS];
-
+	extern int isChanged;
 #endif /* PROJECTMAIN_H_ */

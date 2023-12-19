@@ -1,3 +1,0 @@
-button.c:38:8:Button_Init	8	static
-button.c:66:6:Button_Update	32	static
-button.c:136:13:Button_EventGet	0	static

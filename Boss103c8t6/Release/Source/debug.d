@@ -32,7 +32,8 @@ Source/debug.o: ../Source/debug.c ../Source/debug.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
- ../Source/HelperLib.h ../Source/jr_usart_103_hal.h ../Core/Inc/main.h
+ ../Source/HelperLib.h ../Source/jr_flash_103.h ../Core/Inc/main.h \
+ ../Source/jr_usart_103_hal.h
 
 ../Source/debug.h:
 
@@ -104,6 +105,8 @@ Source/debug.o: ../Source/debug.c ../Source/debug.h \
 
 ../Source/HelperLib.h:
 
-../Source/jr_usart_103_hal.h:
+../Source/jr_flash_103.h:
 
 ../Core/Inc/main.h:
+
+../Source/jr_usart_103_hal.h:

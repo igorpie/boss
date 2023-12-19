@@ -29,6 +29,7 @@ typedef unsigned int u32;
 		int		trig[4];									// триггер, что обнаружено кручение ручки
 	} PotStruct;
 
+	#define kSizePot	96
 
 
 // * кнопки *

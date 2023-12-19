@@ -471,14 +471,26 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : USB_VBUS_Pin SW_1_Pin */
-  GPIO_InitStruct.Pin = USB_VBUS_Pin|SW_1_Pin;
+  /*Configure GPIO pin : USB_VBUS_Pin */
+  GPIO_InitStruct.Pin = USB_VBUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(USB_VBUS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SW_2_Pin In_Tip_Pin In_Ring_Pin */
-  GPIO_InitStruct.Pin = SW_2_Pin|In_Tip_Pin|In_Ring_Pin;
+  /*Configure GPIO pin : SW_1_Pin */
+  GPIO_InitStruct.Pin = SW_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(SW_1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : SW_2_Pin */
+  GPIO_InitStruct.Pin = SW_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(SW_2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : In_Tip_Pin In_Ring_Pin */
+  GPIO_InitStruct.Pin = In_Tip_Pin|In_Ring_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
