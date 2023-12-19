@@ -1,8 +1,9 @@
-jr_flash_103.c:13:6:flash_unlock	0	static
-jr_flash_103.c:19:6:flash_lock	0	static
-jr_flash_103.c:24:6:flash_erase	0	static
-jr_flash_103.c:42:6:jrflash_write_u32	8	static
-jr_flash_103.c:60:14:flash_read_u32	0	static
-jr_flash_103.c:69:6:flash_erase_buf	16	static
-jr_flash_103.c:79:6:jrflash_write_page	16	static
-jr_flash_103.c:106:6:FlashSave	16	static
+jr_flash_103.c:14:6:flash_unlock	0	static
+jr_flash_103.c:20:6:flash_lock	0	static
+jr_flash_103.c:25:6:flash_erase	0	static
+jr_flash_103.c:43:6:jrflash_write_u32	8	static
+jr_flash_103.c:61:14:flash_read_u32	0	static
+jr_flash_103.c:70:6:flash_erase_buf	16	static
+jr_flash_103.c:80:6:jrflash_write_page	16	static
+jr_flash_103.c:107:6:FlashSave	16	static
+jr_flash_103.c:131:6:FlashLoad	0	static

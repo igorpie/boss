@@ -1,23 +1,10 @@
-16:05:01 **** Incremental Build of configuration Release for project Boss103c8t6 ****
+16:16:00 **** Incremental Build of configuration Release for project Boss103c8t6 ****
 make -j12 all 
-arm-none-eabi-gcc "../Source/ProjectMain.c" -mcpu=cortex-m3 -std=gnu11 -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Source -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Inc -Os -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Source/ProjectMain.d" -MT"Source/ProjectMain.o"  -mfloat-abi=soft -mthumb -o "Source/ProjectMain.o"
-arm-none-eabi-gcc -o "Boss103c8t6.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\_stm32\stm32f103\boss\Boss103c8t6\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Boss103c8t6.map" -Wl,--gc-sections -static  -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Boss103c8t6.elf
- 
-arm-none-eabi-objdump -h -S  Boss103c8t6.elf  > "Boss103c8t6.list"
-arm-none-eabi-objcopy  -O ihex  Boss103c8t6.elf  "Boss103c8t6.hex"
-arm-none-eabi-objcopy  -O binary  Boss103c8t6.elf  "Boss103c8t6.bin"
 arm-none-eabi-size   Boss103c8t6.elf 
    text	   data	    bss	    dec	    hex	filename
-  21848	   1480	   5524	  28852	   70b4	Boss103c8t6.elf
+  21984	   1480	   5524	  28988	   713c	Boss103c8t6.elf
 Finished building: default.size.stdout
  
-Finished building: Boss103c8t6.hex
-Finished building: Boss103c8t6.bin
- 
- 
-Finished building: Boss103c8t6.list
- 
 
-16:05:02 Build Finished. 0 errors, 0 warnings. (took 468ms)
+16:16:00 Build Finished. 0 errors, 0 warnings. (took 234ms)
 

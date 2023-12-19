@@ -4,6 +4,7 @@
 
 #include "jr_flash_103.h"
 #include "ProjectMain.h"
+#include "HelperLib.h"
 #include "jr_usart_103_hal.h"
 
 // Запись: разблокировать, стереть страницу, записывать (u16, если надо u32, то бить на 2 u16) , заблокировать
@@ -102,7 +103,7 @@ void jrflash_write_page(char * s, unsigned int p){
 }
 
 
-
+// копирование из ОЗУ в Flash
 void FlashSave(char * s, unsigned int len){						// len кратное двум
 	u16 d;
 	unsigned int address = FLASH_BASE + kFlashPage * _page_size;
@@ -123,4 +124,12 @@ void FlashSave(char * s, unsigned int len){						// len кратное двум
     }
     FLASH->CR &= ~(FLASH_CR_PG);
 	flash_lock();
+}
+
+
+// копирование из Flash в ОЗУ
+void FlashLoad(char * s, unsigned int len){						// len - любое
+	unsigned int address = FLASH_BASE + kFlashPage * _page_size;
+	LDIRc( (char *) address , s , len);
+
 }

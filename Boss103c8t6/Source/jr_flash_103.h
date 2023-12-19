@@ -17,3 +17,4 @@ void flash_erase_buf(int , int);									// стирание страниц фа
 void jrflash_write_page(char * s, unsigned int p);
 
 void FlashSave(char * s, unsigned int len);							// Запись массива произвольной длины в фиксированную страницу конфига
+void FlashLoad(char * s, unsigned int len);							// Чтение из страницы конфига флэш в ОЗУ

@@ -77,8 +77,10 @@ void UsbReceivedMidiPC(int byte1 , int byte2){
 
 void TestFlash(void) {
 
-	PresetNumber = 0x12345678;
+	debug("Flash tests");
+	debugAdc();
 
+	PresetNumber = 0x12345678;
 	for (int i = 0; i < 3000 ; i++ ) {
 		TriggersResetAll();
 		pause(1);
@@ -86,4 +88,10 @@ void TestFlash(void) {
 	}
 	FlashSave((char *) pots, 96 * (ADC_NUM_CHANNELS-2));
 	debug("Save to flash test OK");
+
+	CLEARS((char *) pots, 96 * (ADC_NUM_CHANNELS-2));			// clean RAM area
+
+	FlashLoad((char *) pots, 96 * (ADC_NUM_CHANNELS-2));
+	debugAdc();
+	debug("Flash load test OK");
 }
