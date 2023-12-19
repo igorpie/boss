@@ -1,4 +1,4 @@
-ProjectMain.c:71:6:UsbReceivedMidiCC	16	static
-ProjectMain.c:77:6:UsbReceivedMidiPC	8	static
-ProjectMain.c:83:6:TestFlash	8	static
+ProjectMain.c:73:6:UsbReceivedMidiCC	16	static
+ProjectMain.c:79:6:UsbReceivedMidiPC	8	static
+ProjectMain.c:85:6:TestFlash	8	static
 ProjectMain.c:23:6:ProjectMain	24	static

@@ -26,9 +26,11 @@ void ProjectMain(void){
 	USART_init();
 	PotsInit();
 
+	ssd1306_TestAll();
+
 	TestFlash();												// uncomment for test
 
-	ssd1306_TestAll();
+
 
 	while(1){
 		TriggersResetAll();

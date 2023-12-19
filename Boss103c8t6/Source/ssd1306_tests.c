@@ -1,6 +1,6 @@
 
 #include <string.h>
-#include <stdio.h>
+//#include <stdio.h>
 
 #include "ssd1306.h"
 #include "ssd1306_tests.h"
@@ -223,9 +223,9 @@ void ssd1306_TestFPS() {
    
     HAL_Delay(5000);
 
-    char buff[64];
+    //char buff[64];
     fps = (float)fps / ((end - start) / 1000.0);
-    snprintf(buff, sizeof(buff), "~%d FPS", fps);
+    //snprintf(buff, sizeof(buff), "~%d FPS", fps);
    
     ssd1306_Fill(White);
     ssd1306_SetCursor(2, 2);
