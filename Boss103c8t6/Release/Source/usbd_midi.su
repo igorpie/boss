@@ -1,0 +1,10 @@
+usbd_midi.c:166:17:USBD_MIDI_GetCfgDesc	0	static
+usbd_midi.c:137:16:USBD_MIDI_DataOut	8	static
+usbd_midi.c:112:16:USBD_MIDI_DeInit	16	static
+usbd_midi.c:104:16:USBD_MIDI_Init	8	static
+usbd_midi.c:10:9:get_flag_DataIn	0	static,ignoring_inline_asm
+usbd_midi.c:18:6:set_flag_DataIn	0	static,ignoring_inline_asm
+usbd_midi.c:119:16:USBD_MIDI_DataIn	8	static
+usbd_midi.c:24:6:reset_flag_DataIn	0	static,ignoring_inline_asm
+usbd_midi.c:173:9:USBD_MIDI_RegisterInterface	0	static
+usbd_midi.c:184:6:USBD_MIDI_SendPacket	8	static

@@ -1,0 +1,61 @@
+<html lang="ru-RU" >
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MIDI part</title>
+<script type="text/javascript">
+var portID1;
+let midiAccess1;
+
+navigator.requestMIDIAccess()
+    .then(onMIDISuccess, onMIDIFailure);
+
+function onMIDISuccess(midiAccess) {
+    console.log(midiAccess);
+    let inputs = midiAccess.inputs;
+    let outputs = midiAccess.outputs;
+	midiAccess1 = midiAccess;
+	console.log(midiAccess.outputs);
+
+for (const entry of midiAccess.outputs) {
+    const output = entry[1];
+    console.log(
+      `Output port [type:'${output.type}'] id: '${output.id}' manufacturer: '${output.manufacturer}' name: '${output.name}' version: '${output.version}'`
+    );
+	portID1 =  output.id;
+	}
+
+}
+
+function onMIDIFailure() {
+    console.log('Could not access your MIDI devices.');
+}
+</script>
+
+</head>
+<body>
+<h1> Приложение к проекту </h1>
+<button onclick="sendPC0(midiAccess1 , portID1 );" id="checkbtn0">Patch 0</button>
+<button onclick="sendPC1(midiAccess1 , portID1);" id="checkbtn0">Patch 1</button>
+<button onclick="sendPC2(midiAccess1 , portID1);" id="checkbtn0">Patch 2</button>
+
+
+
+<script type="text/javascript">
+function sendPC0(midiAccess, portID) {
+	const output = midiAccess.outputs.get(portID);
+	const noteOnMessage = [0x90, 60, 0x7f];
+  	output.send([0xB0 , 11 , 99]);
+}
+
+function sendPC1(midiAccess, portID) {
+	const output = midiAccess.outputs.get(portID);
+  	output.send([0xB1 , 20 , 50]);
+}
+
+
+function sendPC2(midiAccess, portID) {
+	const output = midiAccess.outputs.get(portID);
+  	output.send([0xB2 , 30 , 40]);
+}
+</script>
+
+
+</body></html>
