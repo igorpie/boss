@@ -101,4 +101,10 @@ void ScanPotsShadow(void);
 void PotsInit(void);
 void TriggersResetAll(void);
 void Key(KeyStruct * k);
+
+void LDIR(char * , char * , int );								// побайтовое копирование
+void LDIRc(const  char * ,char * , int );
+void CLEARS(char * , int );										// очистка
+
+
 #endif /* HELPERLIB_H_ */

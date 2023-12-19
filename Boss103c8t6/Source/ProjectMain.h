@@ -16,8 +16,6 @@
 	#define project_date __DATE__
 	#define project_time __TIME__
 
-
-	#define _page_size 1024											// stm32f103cbt6 md flash page size
 	#define ADC_NUM_CHANNELS	6
 	#define kNumMeasure 16
 

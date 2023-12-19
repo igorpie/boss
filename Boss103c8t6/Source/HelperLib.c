@@ -229,3 +229,26 @@ void Key(KeyStruct * k){
 		}
 	}
 }
+
+
+
+// копирование побайтовое
+void LDIR(char *HL , char *DE , int BC){						// откуда, куда, сколько
+	do {
+		*DE++ = *HL++;
+	} while (BC--);
+}
+
+void LDIRc(const char *HL , char *DE , int BC) {				// откуда, куда, сколько
+	do {
+		*DE++ = *HL++;
+	} while (BC--);
+}
+
+//очистка массива
+void CLEARS( char *HL , int BC){									// что, сколько
+	do {
+		*HL++ = 0;
+	}
+	while (BC--);
+}
