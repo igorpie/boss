@@ -38,12 +38,14 @@ void ProjectMain(void){
 			keys[0].flag_release_short = kReset;
 			(unsigned int)PresetNumber--;
 			PresetNumber %= 10;
+			debug2("Preset " , PresetNumber);
 			// reload preset
 		}
 		if (keys[1].flag_release_short == kSet) {
 			keys[1].flag_release_short = kReset;
 			PresetNumber++;
 			PresetNumber %= 10;
+			debug2("Preset " , PresetNumber);
 			// reload preset
 		}
 		if (keys[1].flag_hold_longer == kSet) {
