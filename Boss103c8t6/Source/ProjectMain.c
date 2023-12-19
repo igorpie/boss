@@ -3,6 +3,7 @@
 #include "HelperLib.h"
 #include "jr_flash_103.h"
 #include "jr_usart_103_hal.h"
+#include "ssd1306_tests.h"
 
 DevStruct dev;
 KeyStruct keys[] = {
@@ -26,6 +27,8 @@ void ProjectMain(void){
 	PotsInit();
 
 	TestFlash();												// uncomment for test
+
+	ssd1306_TestAll();
 
 	while(1){
 		TriggersResetAll();
