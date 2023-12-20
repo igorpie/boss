@@ -3,44 +3,60 @@
 #include "HelperLib.h"
 #include "jr_flash_103.h"
 #include "jr_usart_103_hal.h"
-#include "ssd1306_tests.h"
+#include "ssd1306.h"
 
-DevStruct dev;
+
 KeyStruct keys[] = {
 		{ SW_1_Pin , GPIOA , 0 , 0 , 0 , 0   },		// A1
 		{ SW_2_Pin , GPIOB , 0 , 0 , 0 , 0   },		// B2
 };
 
+/* Потенциометры [0..3] и светодиодные входы [4..5] заведеные в АЦП
+ * Все фильтруется
+ * Потенциометры сохраняются в флэш.
+ * Светодиоды чтобы триггеру убедиться что есть изменения.
+ */
 uint16_t Adc1ConvertedValue[ADC_NUM_CHANNELS];
 uint16_t Adc1Values[ADC_NUM_CHANNELS][kNumMeasure];
 
-/* Потенциометры [0..3] и светодиодные входы [4..5] заведеные в АЦП
- * Потенциометры сохраняются во флэш.
- * Светодиоды просто удобно отфильтровать и по триггеру убедиться что есть изменения.
- */
-PotStruct pots[ADC_NUM_CHANNELS];
+
+DevStruct dev = {.test = "info"};
+unsigned int presetNumber = 7;									// номер текущего пресета
+PotStruct pots[ADC_NUM_CHANNELS] = {0};							// состояние текущего пресета
+PotStruct presets[PRESETS_NUM][ANALOG_POT_ADC_NUM] = {0};		// 2d массив потенциометров под пресеты. ~192 байта х число пресетов
+
 int isChanged = kReset;											// bool , если крутнули ручку, то появляется "звездочка" призывающая к записи
 int isNeedReload = kReset;										// bool , требуется загрузить пресет с текущим номером (из-за миди)
 
 
+/* ---------------------------------------------------------- */
+/*                           main()                           */
+/* ---------------------------------------------------------- */
 void ProjectMain(void){
 	RCC->APB1ENR |= RCC_APB1ENR_TIM4EN;							// пуск таймера
 	TIM4->CR1 |= TIM_CR1_CEN;
 	USART_init();
+	ssd1306_Init();
+
 	PotsInit();
 	keys[0].flag_release_short = kReset;
 	keys[1].flag_release_short = kReset;
 	keys[1].flag_hold_very_longer = kReset;
 	keys[1].flag_release_very_longer = kReset;
-	//ssd1306_TestAll();
-//	TestFlash();												// uncomment for test
 
-	FlashLoad((char *) pots, kSizePot*(ADC_NUM_CHANNELS-2));	// load settings from flash
-	//todo:  initial digital pots setting() / make load preset
+
+//	TestFlash();												// uncomment for test
+	FlashLoad();												// load settings from flash to RAM
+	isNeedReload = kSet;										// принудительная загрузка пресета из ОЗУ в текущие параметры
 	TriggersResetAll();
 
 	// * Главный цикл *
 	while(1){
+		// * загрузка пресета если надо *
+		if (isNeedReload) {
+			isNeedReload = kReset;
+			PresetLoadFromRam();
+		}
 		pause(1);
 
 		// * опрос и обработка кнопок *
@@ -48,60 +64,63 @@ void ProjectMain(void){
 		Key(&keys[1]);
 		if (keys[0].flag_release_short == kSet) {
 			keys[0].flag_release_short = kReset;
-			if (--PresetNumber < 0 ) PresetNumber = 9;
+			if (--presetNumber > PRESETS_NUM ) presetNumber = PRESETS_NUM - 1;
 			isNeedReload = kSet;
 
 		}
 		if (keys[1].flag_release_short == kSet) {
 			keys[1].flag_release_short = kReset;
-			PresetNumber++;
-			PresetNumber %= 10;
+			presetNumber++;
+			presetNumber %= PRESETS_NUM;
 			isNeedReload = kSet;
 		}
 		if (keys[1].flag_hold_very_longer == kSet) {
 			// запись во флэш. состояние входов лампочек не сохраняется
-			FlashSave((char *) pots, kSizePot*(ADC_NUM_CHANNELS-2));
+			FlashSave((char *) presets, kSizePreset * PRESETS_NUM);
 			debug("Save to flash OK");
+
+			isChanged = kReset;
+			display();											// clean "*" on the screen
 
 			while(!keys[1].flag_release_very_longer)			// ожидание отпускания кнопки, иначе запись во флэш будет в цикле
 				Key(&keys[1]);
-
 			keys[1].flag_release_very_longer = kReset;
 			keys[1].flag_hold_very_longer = kReset;
-			isChanged = kReset;
-			// todo: clean "*" on the screen
 		}
 
 		// * обработка потенциометров *
 		ScanPotsShadow();
-		for (int i = 0 ; i < ADC_NUM_CHANNELS ; i++) {
-			if (pots[i].trig[0] == kSet){
+		for (int i = 0 ; i < ANALOG_POT_ADC_NUM ; i++) {
+			if (pots[i].trig[0] == kSet){						// крутнули ручку или что-то прилетело по миди.
 				pots[i].trig[0] = kReset;
-				isChanged = kSet;								// крутнули ручку или что-то прилетело по миди.
-				//todo: set "*" on the screen
-				isNeedReload = kSet;
+				isChanged = kSet;								// установка "*"
+				PresetSaveToRam();								// сохранение изменений в массив параметров
+				isNeedReload = kSet;							// флаг загрузки параметров из ОЗУ в текущий пресет и в цифровые потенциометрыы
 				debugAdc();
 			}
 		}
 
-
-		// todo * обработка/байпас лампочек *
-
-
-		// * загрузка пресета если надо *
-		if (isNeedReload) {
-			isNeedReload = kReset;
-			PresetLoad();
-		}
+		// todo * обработка/байпас входов лампочек *
 	}
 };
 
 
-// загрузка в цифровые поты текущих значений
-void PresetLoad(void){
+// сохранение текущего пресета в массив в ОЗУ
+void PresetSaveToRam(void){
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)
+		presets[presetNumber][i].val_int[0]= pots[i].val_int[0];
+}
+
+// загрузка в текущий пресет из массива в ОЗУ. Применение = Загрузка цифровых потов
+void PresetLoadFromRam(void){
 	debugState();
-	//todo: load preset
-	//todo: display
+	//isChanged = kReset;
+
+//	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)				//load preset data from RAM
+//		pots[i].val_int[0] = presets[presetNumber][i].val_int[0];
+
+	//todo: set states to digital pots and(?) leds
+	display();													//display
 }
 
 
@@ -128,7 +147,37 @@ void UsbReceivedMidiCC(int byte1 , int byte2 , int byte3){
 void UsbReceivedMidiPC(int byte1 , int byte2){
 	debug2("USB MIDI PC: " , byte1);
 	debug2("USB MIDI Value: " , byte2);
-	PresetNumber = byte2 % 10;
+	presetNumber = byte2 % 10;
 	isNeedReload = kSet;										// load preset
 };
 
+void display(void){
+	ssd1306_Fill(Black);										// CLS
+
+	ssd1306_SetCursor(32  , 4);
+	ssd1306_WriteString("Inputs 0..4", Font_7x10, White);
+
+	int x = 4*7;
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++) {
+		ssd1306_SetCursor(16 + x * i , 18);
+		ssd1306_WriteString(dec_u32(pots[i].val_int[0]), Font_7x10, White);
+	}
+
+	ssd1306_SetCursor(4 , 8);									// "*" вперед чтобы не наложилась на номер пресета
+	if (isChanged)
+		ssd1306_WriteChar('*' , Font_11x18 , White);
+
+	ssd1306_SetCursor(0 , 14);									// номер пресета
+	ssd1306_WriteChar((presetNumber & 7) + '0' , Font_11x18 , White);
+
+
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++) {
+		int x1 = 15 + x * i;
+		int dx = x1 + pots[i].val_int[0] / 11 + 1;
+		ssd1306_Line(x1, 30, dx,  30, White);
+		ssd1306_Line(x1, 31, dx,  31, White);
+	}
+
+
+	ssd1306_UpdateScreen();
+}

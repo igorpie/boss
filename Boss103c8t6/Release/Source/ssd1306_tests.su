@@ -1,6 +1,6 @@
 ssd1306_tests.c:114:6:ssd1306_TestBorder	16	static
 ssd1306_tests.c:143:6:ssd1306_TestFonts1	8	static
-ssd1306_tests.c:176:6:ssd1306_TestFonts2	16	static
+ssd1306_tests.c:176:6:ssd1306_TestFonts2	0	static
 ssd1306_tests.c:198:6:ssd1306_TestFPS	32	static
 ssd1306_tests.c:236:6:ssd1306_TestLine	16	static
 ssd1306_tests.c:244:6:ssd1306_TestRectangle	24	static

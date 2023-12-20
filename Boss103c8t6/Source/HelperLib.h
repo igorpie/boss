@@ -10,26 +10,26 @@
 #include "ProjectMain.h"
 typedef unsigned int u32;
 
-	// * структура информации о потенциометре. 8 32битных слов + 4х4= 16 слов => 24 слов на 1 потенциометр или аналоговый вход или 96 байт
+	// * структура информации о потенциометре. 12 32битных слов или 48 байт
 	typedef struct {
-		int	adc;											// целое медианное значение, после nx
+//		int	adc;											// целое медианное значение, после nx
 		float f1;											// фильтр (текущий заряд кондера)
 		float cap;											// емкость кондера / бленд. Может меняться, если крутнут ручку.
 		int	i;												// счетчик. Если >0 , значит недавно крутили ручку.
-		float f2;											// 0..1023 второй фильтр
+		float f2;											// второй фильтр
 		float f2_old;
 		// без удержания кнопок, с удержанием левой, правой, обеих
 		float	unfiltered;
-		float	val_int[4];									// значение, можно использовать.  без, байпас, тап, обе
+		float	val_int[1];									// значение, можно использовать.  без, байпас, тап, обе
 		float	val_temp;									// временное значение, нельзя использовать.
 
-		float	val[4];										// без, байпас, тап, обе
-		float	val_old[4];
-//		float	val_polished[4];
-		int		trig[4];									// триггер, что обнаружено кручение ручки
+		float	val[1];										// без, байпас, тап, обе
+		float	val_old[1];
+		int		trig[1];									// триггер, что обнаружено кручение ручки
 	} PotStruct;
 
-	#define kSizePot	96
+	#define kSizePot	48									// 48 байт на пот, или 192 байта на пресет
+	#define kSizePreset	(kSizePot * ANALOG_POT_ADC_NUM)		// размер пресета
 
 
 // * кнопки *
@@ -103,6 +103,7 @@ void PotsInit(void);
 void TriggersResetAll(void);
 void Key(KeyStruct * k);
 
+float jquad(float d) ;
 void LDIR(char * , char * , int );								// побайтовое копирование
 void LDIRc(const  char * ,char * , int );
 void CLEARS(char * , int );										// очистка

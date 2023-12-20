@@ -2,6 +2,9 @@
 #include "jr_usart_103_hal.h"
 #include "HelperLib.h"
 
+/* ---------------------------------------------------------- */
+/*                            TIME                            */
+/* ---------------------------------------------------------- */
 
 __attribute__ ((optimize(0)))  void halt(void){					// indian style wait untill 1ms end
 	static unsigned int temp  = 0;
@@ -45,11 +48,6 @@ void adc_sort(int y){
 	} while (e);
 }
 
-
-// возведение в квадрат
-float jquad(float d) {
-	return(d*d);
-}
 
 
 // фильтр от шума потенциометров
@@ -98,7 +96,7 @@ void ScanKnobs(void){											// опрос крутилок.копирует 
 	adc1cpy(x);													// копирование потов в столбец
 	if (!x ){													// сортировка ~ раз в 16 вызовов
 		for (i = 0 ; i < ADC_NUM_CHANNELS ; i++)	{					// перебор потенциометров
-			pots[i].f2_old = pots[i].f2;						// x1024
+			pots[i].f2_old = pots[i].f2;						//
 			adc_sort(i); 										// сортировка строки пота
 
 			v = 0;												// средняя порция
@@ -232,6 +230,12 @@ void Key(KeyStruct * k){
 /* ---------------------------------------------------------- */
 /*                          Прочее                            */
 /* ---------------------------------------------------------- */
+
+// возведение в квадрат
+float jquad(float d) {
+	return(d*d);
+}
+
 
 // копирование побайтовое
 void LDIR(char *HL , char *DE , int BC){						// откуда, куда, сколько

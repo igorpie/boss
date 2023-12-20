@@ -6,4 +6,4 @@ jr_flash_103.c:61:14:flash_read_u32	0	static
 jr_flash_103.c:70:6:flash_erase_buf	16	static
 jr_flash_103.c:80:6:jrflash_write_page	16	static
 jr_flash_103.c:107:6:FlashSave	16	static
-jr_flash_103.c:131:6:FlashLoad	0	static
+jr_flash_103.c:137:6:FlashLoad	8	static

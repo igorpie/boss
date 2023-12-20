@@ -87,8 +87,8 @@ void jrflash_write_page(char * s, unsigned int p){
 
     while (FLASH->SR & FLASH_SR_BSY);
     if (FLASH->SR & FLASH_SR_EOP)  FLASH->SR = FLASH_SR_EOP;
-
     FLASH->CR |= FLASH_CR_PG;
+
 
     for (i = 0; i < _page_size; i += 2) {
     	d =  *(volatile u16 *) s;
@@ -104,17 +104,20 @@ void jrflash_write_page(char * s, unsigned int p){
 
 
 // копирование из ОЗУ в Flash
-void FlashSave(char * s, unsigned int len){						// len кратное двум
-	u16 d;
+void FlashSave(){
+	int len = kSizePreset * PRESETS_NUM;
+	char *s = (char *)presets;
 	unsigned int address = FLASH_BASE + kFlashPage * _page_size;
+
+	u16 d;
 	flash_unlock();
 	flash_erase(address);
 
     while (FLASH->SR & FLASH_SR_BSY);
     if (FLASH->SR & FLASH_SR_EOP)  FLASH->SR = FLASH_SR_EOP;
-
     FLASH->CR |= FLASH_CR_PG;
 
+    // состояния
     for (int i = 0; i < len; i += 2) {
     	d =  *(volatile u16 *) s;								// 2xChar to 1 x u16
     	s = s + 2;
@@ -123,13 +126,15 @@ void FlashSave(char * s, unsigned int len){						// len кратное двум
         FLASH->SR = FLASH_SR_EOP;
     }
     FLASH->CR &= ~(FLASH_CR_PG);
+
+    jrflash_write_u32(presetNumber , address+1020);				// номер пресета в конце страницы
+
 	flash_lock();
 }
 
 
 // копирование из Flash в ОЗУ
-void FlashLoad(char * s, unsigned int len){						// len - любое
-	unsigned int address = FLASH_BASE + kFlashPage * _page_size;
-	LDIRc( (char *) address , s , len);
-
+void FlashLoad(){						// len - любое
+	LDIRc( (char *) (FLASH_BASE + kFlashPage * _page_size) , (char *)presets , kSizePreset * PRESETS_NUM);
+	presetNumber = *(unsigned int *) (FLASH_BASE + kFlashPage * _page_size + 1020);
 }

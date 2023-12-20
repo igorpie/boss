@@ -1,4 +1,6 @@
-ProjectMain.c:26:6:ProjectMain	32	static
-ProjectMain.c:101:6:PresetLoad	0	static
-ProjectMain.c:109:6:UsbReceivedMidiCC	16	static
-ProjectMain.c:128:6:UsbReceivedMidiPC	8	static
+ProjectMain.c:109:6:PresetSaveToRam	0	static
+ProjectMain.c:128:6:UsbReceivedMidiCC	16	static
+ProjectMain.c:147:6:UsbReceivedMidiPC	8	static
+ProjectMain.c:154:6:display	40	static
+ProjectMain.c:115:6:PresetLoadFromRam	8	static
+ProjectMain.c:35:6:ProjectMain	32	static

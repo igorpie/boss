@@ -32,8 +32,8 @@ Source/ProjectMain.o: ../Source/ProjectMain.c ../Source/ProjectMain.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
  ../Source/HelperLib.h ../Source/debug.h ../Source/jr_flash_103.h \
- ../Core/Inc/main.h ../Source/jr_usart_103_hal.h \
- ../Source/ssd1306_tests.h
+ ../Core/Inc/main.h ../Source/jr_usart_103_hal.h ../Source/ssd1306.h \
+ ../Source/ssd1306_conf.h ../Source/ssd1306_fonts.h
 
 ../Source/ProjectMain.h:
 
@@ -111,4 +111,8 @@ Source/ProjectMain.o: ../Source/ProjectMain.c ../Source/ProjectMain.h \
 
 ../Source/jr_usart_103_hal.h:
 
-../Source/ssd1306_tests.h:
+../Source/ssd1306.h:
+
+../Source/ssd1306_conf.h:
+
+../Source/ssd1306_fonts.h:
