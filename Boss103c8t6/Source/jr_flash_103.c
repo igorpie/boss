@@ -136,5 +136,5 @@ void FlashSave(){
 // копирование из Flash в ОЗУ
 void FlashLoad(){						// len - любое
 	LDIRc( (char *) (FLASH_BASE + kFlashPage * _page_size) , (char *)presets , kSizePreset * PRESETS_NUM);
-	presetNumber = *(unsigned int *) (FLASH_BASE + kFlashPage * _page_size + 1020);
+	presetNumber = ( *(unsigned int *) (FLASH_BASE + kFlashPage * _page_size + 1020) ) % PRESETS_NUM;
 }

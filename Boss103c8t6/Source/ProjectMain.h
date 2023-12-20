@@ -15,6 +15,7 @@
 	#define project_date __DATE__
 	#define project_time __TIME__
 
+	#define PRESETS_NUM	5										// число пресетов
 
 	#define ANALOG_POT_ADC_NUM	4								// число входов АЦП с потенциометрами
 	#define LED_ADC_NUM			2
@@ -22,7 +23,7 @@
 	#define ADC_NUM_CHANNELS	(ANALOG_POT_ADC_NUM + LED_ADC_NUM)
 	#define kNumMeasure 16										// число измерений АЦП после которых вычисляется значение
 
-	#define PRESETS_NUM	5										// число пресетов
+
 
 	typedef unsigned int u32;
 	typedef uint16_t u16;

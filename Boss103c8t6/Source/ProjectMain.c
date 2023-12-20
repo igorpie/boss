@@ -66,6 +66,7 @@ void ProjectMain(void){
 			keys[0].flag_release_short = kReset;
 			if (--presetNumber > PRESETS_NUM ) presetNumber = PRESETS_NUM - 1;
 			isNeedReload = kSet;
+			isChanged = kReset;
 
 		}
 		if (keys[1].flag_release_short == kSet) {
@@ -73,6 +74,7 @@ void ProjectMain(void){
 			presetNumber++;
 			presetNumber %= PRESETS_NUM;
 			isNeedReload = kSet;
+			isChanged = kReset;
 		}
 		if (keys[1].flag_hold_very_longer == kSet) {
 			// запись во флэш. состояние входов лампочек не сохраняется
@@ -100,7 +102,7 @@ void ProjectMain(void){
 			}
 		}
 
-		// todo * обработка/байпас входов лампочек *
+		// todo * обработка входов лампочек *
 	}
 };
 
@@ -114,10 +116,8 @@ void PresetSaveToRam(void){
 // загрузка в текущий пресет из массива в ОЗУ. Применение = Загрузка цифровых потов
 void PresetLoadFromRam(void){
 	debugState();
-	//isChanged = kReset;
-
-//	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)				//load preset data from RAM
-//		pots[i].val_int[0] = presets[presetNumber][i].val_int[0];
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)				//load preset data from RAM
+		pots[i].val_int[0] = presets[presetNumber][i].val_int[0];
 
 	//todo: set states to digital pots and(?) leds
 	display();													//display
@@ -126,16 +126,17 @@ void PresetLoadFromRam(void){
 
 // Миди прикидывается потенциометрами для СС и кнопками для РС
 void UsbReceivedMidiCC(int byte1 , int byte2 , int byte3){
-	debug2("USB MIDI CC: " , byte1);
-	debug2("USB MIDI Controller: " , byte2);
-	debug2("USB MIDI Value: " , byte3);
-
 	/* гугль хром при перезагрузке страницы сыплет сообщениями СС
 	 * в контроллеры 123 и 121 в разные миди каналы.
 	 * их - пропускаем
 	 */
-	if ( byte2 > 99)
+	if ( byte2 > 99) {
+		debug2("Ignored ", byte2);
 		return;
+	}
+	debug2("USB MIDI CC: " , byte1);
+	debug2("USB MIDI Controller: " , byte2);
+	debug2("USB MIDI Value: " , byte3);
 
 	// контроллеры [1..4] и кратные им переводятся в потенциометры 0..3. Проще настраивать.
 	int pot = (byte2 - 1) % 4;
@@ -148,6 +149,7 @@ void UsbReceivedMidiPC(int byte1 , int byte2){
 	debug2("USB MIDI PC: " , byte1);
 	debug2("USB MIDI Value: " , byte2);
 	presetNumber = byte2 % 10;
+	isChanged = kReset;
 	isNeedReload = kSet;										// load preset
 };
 
@@ -171,13 +173,11 @@ void display(void){
 	ssd1306_WriteChar((presetNumber & 7) + '0' , Font_11x18 , White);
 
 
-	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++) {
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++) {			// слайдеры
 		int x1 = 15 + x * i;
 		int dx = x1 + pots[i].val_int[0] / 11 + 1;
 		ssd1306_Line(x1, 30, dx,  30, White);
 		ssd1306_Line(x1, 31, dx,  31, White);
 	}
-
-
 	ssd1306_UpdateScreen();
 }
