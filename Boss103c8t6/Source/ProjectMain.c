@@ -119,7 +119,7 @@ void PresetLoadFromRam(void){
 	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)				//load preset data from RAM
 		pots[i].val_int[0] = presets[presetNumber][i].val_int[0];
 
-	//todo: set states to digital pots and(?) leds
+	sendToDigitalPots();										//todo: set states to digital pots and(?) leds
 	display();													//display
 }
 
@@ -180,4 +180,16 @@ void display(void){
 		ssd1306_Line(x1, 31, dx,  31, White);
 	}
 	ssd1306_UpdateScreen();
+}
+
+
+void sendToDigitalPots(void){
+	uint8_t pot_buffer[ANALOG_POT_ADC_NUM];
+	for (int i = 0 ; i  < ANALOG_POT_ADC_NUM ; i++)
+		pot_buffer[i] = (uint8_t) pots[i].val_int[0];
+
+    HAL_I2C_Mem_Write(&hi2c2, (0x2C << 1) | 0x01, 0x00, 1, &pot_buffer[0], 1, 1);
+    HAL_I2C_Mem_Write(&hi2c2, (0x2C << 1) | 0x01, 0x10, 1, &pot_buffer[3], 1, 1);
+    HAL_I2C_Mem_Write(&hi2c2, (0x2C << 1) | 0x01, 0x60, 1, &pot_buffer[1], 1, 1);
+    HAL_I2C_Mem_Write(&hi2c2, (0x2C << 1) | 0x01, 0x70, 1, &pot_buffer[2], 1, 1);
 }

@@ -23,7 +23,7 @@
 	#define ADC_NUM_CHANNELS	(ANALOG_POT_ADC_NUM + LED_ADC_NUM)
 	#define kNumMeasure 16										// число измерений АЦП после которых вычисляется значение
 
-
+//	#define DIGITAL_POT_I2C 0x2C
 
 	typedef unsigned int u32;
 	typedef uint16_t u16;
@@ -44,6 +44,7 @@
 	void UsbReceivedMidiCC(int byte1 , int byte2 , int byte3);
 	void UsbReceivedMidiPC(int byte1 , int byte2);
 	void display(void);
+	void sendToDigitalPots(void);
 
 	extern DevStruct dev;
 	extern uint16_t Adc1ConvertedValue[ADC_NUM_CHANNELS];
