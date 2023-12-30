@@ -1,0 +1,10 @@
+*.a
+*.bak
+*.bin
+*.d
+*.elf
+*.list
+*.map
+*.mk
+*.o
+*.su

@@ -68,8 +68,8 @@ all: main-build
 main-build: Boss103c8t6.elf secondary-outputs
 
 # Tool invocations
-Boss103c8t6.elf: $(OBJS) $(USER_OBJS) D:\_stm32\stm32f103\boss\Boss103c8t6\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Boss103c8t6.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\_stm32\stm32f103\boss\Boss103c8t6\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Boss103c8t6.map" -Wl,--gc-sections -static  -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Boss103c8t6.elf: $(OBJS) $(USER_OBJS) D:\_stm32\stm32f103\boss\boss\Boss103c8t6\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Boss103c8t6.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\_stm32\stm32f103\boss\boss\Boss103c8t6\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Boss103c8t6.map" -Wl,--gc-sections -static  -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

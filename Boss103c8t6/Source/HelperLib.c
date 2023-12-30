@@ -126,7 +126,7 @@ void ScanPotsShadowProc(int p , int i){
 void ScanPotsShadow(void) {
 	int i;
 	ScanKnobs();
-	for (i = 1; i < ADC_NUM_CHANNELS  ; i++){
+	for (i = 0; i < ADC_NUM_CHANNELS  ; i++){
 		ScanPotsShadowProc(0 , i);								// без зажатых кнопок
 		pots[i].val_temp = pots[i].f2;							// запоминание положения ручки без зажатой кнопки, чтобы не реагировать на неё, когда кнопку зажмут
 	}
